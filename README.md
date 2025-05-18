@@ -70,7 +70,7 @@ REDDIT_CONFIG = {
 }
 
 TARGET_SUBREDDIT = "your_target_subreddit"
-LIMIT = 100  # Number of posts to scrape
+LIMIT = 50  # Number of posts to scrape
 ```
 
 ---
@@ -89,22 +89,37 @@ This will scrape the specified number of posts from the configured subreddit and
 
 ## 📝 Output Format
 
-- **posts.csv** — Includes fields like:
-  - Title  
-  - Post ID  
-  - URL  
-  - Score  
-  - Number of Comments  
-  - Date Created
+The data extracted by the scraper is saved in structured JSON format. Below is a breakdown of the schema:
 
-- **comments.csv** — Includes:
-  - Comment body  
-  - Score  
-  - Parent post ID  
-  - Author  
-  - Timestamp
+### 📄 `posts.json`
 
----
+Each entry in the `posts.json` file represents a Reddit post with the following fields:
+
+| Field          | Description                                                  |
+|----------------|--------------------------------------------------------------|
+| `id`           | Unique post identifier (e.g., `1koxv1t`)                     |
+| `title`        | Title of the Reddit post                                     |
+| `score`        | Total upvotes received by the post                           |
+| `author`       | Username of the post author                                  |
+| `created_utc`  | UTC timestamp of post creation in ISO 8601 format            |
+| `url`          | Direct URL to the image or media (if available)             |
+| `num_comments` | Total number of comments on the post                         |
+| `selftext`     | Body text of the post (if any)                               |
+| `comments`     | List of comment objects embedded within the post             |
+
+### 💬 `comments` (nested per post)
+
+Each `comment` object within the `comments` list contains:
+
+| Field          | Description                                                  |
+|----------------|--------------------------------------------------------------|
+| `author`       | Username of the commenter (may be `"None"` or deleted)       |
+| `body`         | Content of the comment                                       |
+| `score`        | Upvotes received by the comment                              |
+| `created_utc`  | UTC timestamp of comment creation in ISO 8601 format         |
+
+> ⚠️ Comments are **nested directly within each post**, making it easy to map discussions without separate files.
+
 
 ## 📊 Use Cases
 
@@ -150,4 +165,4 @@ Contributions are welcome! Please open issues or submit pull requests to improve
 
 ## 📬 Contact
 
-For questions or collaboration opportunities, reach out via GitHub Issues or email: [your_email@example.com]
+For questions or collaboration opportunities, reach out via GitHub Issues or email: [maegha526@gmail.com]
